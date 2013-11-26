@@ -143,8 +143,8 @@ app.bind(adapter, function (bus) {
 
 ### *refrigerator.setpointTemperature*
 The setpoint temperature is a read-only object with the following fields:
-- freshFoodTemperature (an integer representing the the desired temperature for the fresh food in degrees F)
-- freezerTemperature (an integer representing the the desired temperature for the freezer in degrees F)
+- freshFoodTemperature (an integer representing the desired temperature for the fresh food in degrees F)
+- freezerTemperature (an integer representing the desired temperature for the freezer in degrees F)
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -197,8 +197,8 @@ app.bind(adapter, function (bus) {
 ### *refrigerator.odorFilterExpirationStatus*
 The odor filter expiration status is a read-only object with the following fields:
 - odorFilterCalendarTimer (an integer representing the amount of odor filter time used in half hours)
-- odorFilterPercentUsed (an integer representing the the percentage of the odor filter used by time)
-- odorFilterHoursRemaining (an integer representing the the number of hours remaining before the odor filter needs to be changed)
+- odorFilterPercentUsed (an integer representing the percentage of the odor filter used by time)
+- odorFilterHoursRemaining (an integer representing the number of hours remaining before the odor filter needs to be changed)
 
 ``` javascript
 app.bind(adapter, function (bus) {
