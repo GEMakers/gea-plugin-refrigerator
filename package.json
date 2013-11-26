@@ -1,0 +1,13 @@
+{
+    "name" : "gea-plugin-refrigerator",
+    "description" : "Refrigerator plugin for General Electric Appliance SDK",
+    "homepage" : "http://www.ge.com/",
+    "keywords" : [ "GE", "GEA", "SDK", "General Electric", "refrigerator" ],
+    "author" : "Christopher Baker <christopher.baker2@ge.com>",
+    "repository" : {
+        "type": "git", "url": "https://github.com/GEMakers/gea-plugin-refrigerator.git"
+    },
+    "main" : "src/main.js",
+    "version" : "0.1.0"
+}
+
