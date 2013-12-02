@@ -10,7 +10,7 @@ const ADDRESS_DOOR_BOARD = 0x03;
 const COMMAND_REQUEST_DOOR_STATE = 0x23;
 const COMMAND_REQUEST_ALL_DOOR_BOARD_INFO = 0x36;
 
-function Refrigerator (bus, appliance, base) {
+function Refrigerator (bus, configuration, appliance, base) {
     appliance.filterAlert = appliance.erd({
         erd: base++,
         format: "UInt8"
@@ -84,7 +84,7 @@ function Refrigerator (bus, appliance, base) {
         ]
     });
     
-    appliance.doorBoard = bus.endpoint(ADDRESS_DOOR_BOARD);
+    appliance.doorBoard = bus.endpoint(configuration.address, ADDRESS_DOOR_BOARD);
     
     appliance.doorBoard.information = appliance.doorBoard.command({
         command: COMMAND_REQUEST_ALL_DOOR_BOARD_INFO,
@@ -109,9 +109,23 @@ exports.plugin = function (bus, configuration, callback) {
     bus.on("appliance", function (appliance) {
         appliance.read(REFRIGERATOR_BASE, function (value) {
             bus.emit("refrigerator", 
-                Refrigerator(bus, appliance, REFRIGERATOR_BASE));
+                Refrigerator(bus, configuration, appliance, REFRIGERATOR_BASE));
         });
     });
+    
+    var create = bus.create;
+    
+    bus.create = function (name, callback) {
+        create(name, function (appliance) {
+            if (name == "refrigerator") {
+                appliance.address = configuration.address;
+                appliance.version = configuration.version;
+                Refrigerator(bus, configuration, appliance, REFRIGERATOR_BASE);
+            }
+            
+            callback(appliance);
+        });
+    };
     
     callback(bus);
 };
