@@ -2,6 +2,35 @@
 
 This node.js package provides functionality for communicating with a refrigerator via the [GEA SDK](https://github.com/GEMakers/gea-sdk).
 
+## Table of Contents
+
+- [Installation](#installation)
+- [API](#refrigerator-api)
+  - [bus.on("refrigerator", callback)](#busonrefrigerator-callback)
+    - [refrigerator.filterAlert](#refrigeratorfilteralert)
+    - [refrigerator.filterExpirationStatus](#refrigeratorfilterexpirationstatus)
+    - [refrigerator.commandFeatures](#refrigeratorcommandfeatures)
+    - [refrigerator.temperatureAlert](#refrigeratortemperaturealert)
+    - [refrigerator.displayTemperature](#refrigeratordisplaytemperature)
+    - [refrigerator.setpointTemperature](#refrigeratorsetpointtemperature)
+    - [refrigerator.doorAlarmAlert](#refrigeratordooralarmalert)
+    - [refrigerator.iceMakerBucketStatus](#refrigeratoricemakerbucketstatus)
+    - [refrigerator.odorFilterExpirationStatus](#refrigeratorodorfilterexpirationstatus)
+    - [refrigerator.doorState](#refrigeratordoorstate)
+    - [refrigerator.doorBoard.information](#refrigeratordoorboardinformation)
+- [Appendix](#appendix)
+  - [Filter alert](#filter-alert)
+  - [Command features](#command-features)
+  - [Temperature alert](#temperature-alert)
+  - [Door alarm alert](#door-alarm-alert)
+  - [Ice maker bucket status](#ice-maker-bucket-status)
+  - [Door state](#door-state)
+  - [DC switch state](#dc-switch-state)
+  - [AC input state](#ac-input-state)
+  - [Extended DC switch state](#extended-dc-switch-state)
+  - [Relay status](#relay-status)
+  - [Duct door status](#duct-door-status)
+
 ## Installation
 To install this application using the node.js package manager, issue the following commands:
 
