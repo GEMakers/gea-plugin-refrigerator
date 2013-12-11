@@ -7,7 +7,6 @@
     "repository" : {
         "type": "git", "url": "https://github.com/GEMakers/gea-plugin-refrigerator.git"
     },
-    "main" : "src/main.js",
     "version" : "0.1.0"
 }
 
