@@ -1,7 +1,7 @@
 # Refrigerator
 **General Electric Appliances Refrigerator Software Development Kit**
 
-This node.js package provides functionality for communicating with a refrigerator via the [General Electric Appliance Software Development Kit](https://github.com/GEMakers/gea-sdk). In order to use this software, you must first connect your range to your computer using the [Green Bean](https://github.com/GEMakers/green-bean).
+This node.js package provides functionality for communicating with a refrigerator via the [General Electric Appliance Software Development Kit](https://github.com/GEMakers/gea-sdk). In order to use this software, you must first connect your refrigerator to your computer using the [Green Bean](https://github.com/GEMakers/green-bean).
 
 ## Overview
 
