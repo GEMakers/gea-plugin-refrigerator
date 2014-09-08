@@ -1,24 +1,23 @@
-# Refrigerator Plugin for the GEA SDK
+# Refrigerator
+**General Electric Appliances Refrigerator Software Development Kit**
 
-This node.js package provides functionality for communicating with a refrigerator via the [GEA SDK](https://github.com/GEMakers/gea-sdk).
+This node.js package provides functionality for communicating with a refrigerator via the [General Electric Appliance Software Development Kit](https://github.com/GEMakers/gea-sdk). In order to use this software, you must first connect your range to your computer using the [Green Bean](https://github.com/GEMakers/green-bean).
 
-## Table of Contents
+## Overview
 
-- [Installation](#installation)
-- [API](#refrigerator-api)
-  - [bus.on("refrigerator", callback)](#busonrefrigerator-callback)
-    - [refrigerator.filterAlert](#refrigeratorfilteralert)
-    - [refrigerator.filterExpirationStatus](#refrigeratorfilterexpirationstatus)
-    - [refrigerator.commandFeatures](#refrigeratorcommandfeatures)
-    - [refrigerator.temperatureAlert](#refrigeratortemperaturealert)
-    - [refrigerator.displayTemperature](#refrigeratordisplaytemperature)
-    - [refrigerator.setpointTemperature](#refrigeratorsetpointtemperature)
-    - [refrigerator.doorAlarmAlert](#refrigeratordooralarmalert)
-    - [refrigerator.iceMakerBucketStatus](#refrigeratoricemakerbucketstatus)
-    - [refrigerator.odorFilterExpirationStatus](#refrigeratorodorfilterexpirationstatus)
-    - [refrigerator.doorState](#refrigeratordoorstate)
-    - [refrigerator.doorBoard.information](#refrigeratordoorboardinformation)
-- [Appendix](#appendix)
+1. [Using the Software](#using-the-software)
+  - [refrigerator.filterAlert](#refrigeratorfilteralert)
+  - [refrigerator.filterExpirationStatus](#refrigeratorfilterexpirationstatus)
+  - [refrigerator.commandFeatures](#refrigeratorcommandfeatures)
+  - [refrigerator.temperatureAlert](#refrigeratortemperaturealert)
+  - [refrigerator.displayTemperature](#refrigeratordisplaytemperature)
+  - [refrigerator.setpointTemperature](#refrigeratorsetpointtemperature)
+  - [refrigerator.doorAlarmAlert](#refrigeratordooralarmalert)
+  - [refrigerator.iceMakerBucketStatus](#refrigeratoricemakerbucketstatus)
+  - [refrigerator.odorFilterExpirationStatus](#refrigeratorodorfilterexpirationstatus)
+  - [refrigerator.doorState](#refrigeratordoorstate)
+  - [refrigerator.doorBoard.information](#refrigeratordoorboardinformation)
+1. [Appendix](#appendix)
   - [Filter alert](#filter-alert)
   - [Command features](#command-features)
   - [Temperature alert](#temperature-alert)
@@ -31,68 +30,27 @@ This node.js package provides functionality for communicating with a refrigerato
   - [Relay status](#relay-status)
   - [Duct door status](#duct-door-status)
 
-## Installation
-To install this application using the node.js package manager, issue the following commands:
+### Using the Software
+Below are a few node.js applications that demonstrate how to use this package to interact with a refrigerator.
 
-```
-npm install git+https://github.com/GEMakers/gea-plugin-refrigerator.git
-```
-
-To include the plugin in your application, use the *plugin* function after configuring your application.
-
-``` javascript
-var gea = require("gea-sdk");
-var adapter = require("gea-adapter-usb");
-
-// configure your application
-var app = gea.configure({
-    address: 0xcb
-});
-
-// include the refrigerator plugin in your application
-app.plugin(require("gea-plugin-refrigerator"));
-
-// bind to the adapter to access the bus
-app.bind(adapter, function (bus) {
-    // the bus now has all of the refrigerator plugin functions
-});
-```
-
-## Refrigerator API
-Below is the documentation for each of the functions provided by this plugin, as well as a few examples showing how to use them.
-
-### *bus.on("refrigerator", callback)*
-This event is emitted whenever a refrigerator has been discovered on the bus.
-A refrigerator object is passed from the plugin to the function.
-This refrigerator object inherits all functions and properties from the appliance object.
-
-``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        console.log("address:", refrigerator.address);
-        console.log("version:", refrigerator.version.join("."));
-    });
-});
-```
-
-### *refrigerator.filterAlert*
+#### *refrigerator.filterAlert*
 The filter alert is a read-only unsigned integer value of the [filter alert](#filter-alert) bit field.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.filterAlert.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.filterAlert.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.filterAlert.read(function (value) {
+        console.log("filter alert is:", value);
+    });
+
+    refrigerator.filterAlert.subscribe(function (value) {
+        console.log("filter alert changed:", value);
     });
 });
 ```
 
-### *refrigerator.filterExpirationStatus*
+#### *refrigerator.filterExpirationStatus*
 The filter expiration status is a read-only object with the following fields:
 - waterFilterCalendarTimer (an integer representing the amount of water filter time used in half hours)
 - waterFilterCalendarPercentUsed (an integer representing the  percentage of the water filter used by time)
@@ -102,168 +60,168 @@ The filter expiration status is a read-only object with the following fields:
 - waterFilterOuncesRemaining (an integer representing the  number of ounces remaining before the water filter needs to be changed)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.filterExpirationStatus.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.filterExpirationStatus.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.filterExpirationStatus.read(function (value) {
+      console.log("filter expiration status is:", value);
+    });
+
+    refrigerator.filterExpirationStatus.subscribe(function (value) {
+      console.log("filter expiration status changed:", value);
     });
 });
 ```
 
-### *refrigerator.commandFeatures*
+#### *refrigerator.commandFeatures*
 The command features are an unsigned integer value of the [command features](#command-features) bit field.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.commandFeatures.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.commandFeatures.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        refrigerator.commandFeatures.write(1);
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.commandFeatures.read(function (value) {
+        console.log("command features are:", value);
     });
+
+    refrigerator.commandFeatures.subscribe(function (value) {
+        console.log("command features changed:", value);
+    });
+
+    refrigerator.commandFeatures.write(1);
 });
 ```
 
-### *refrigerator.temperatureAlert*
+#### *refrigerator.temperatureAlert*
 The temperature alert is a read-only unsigned integer value of the [temperature alert](#temperature-alert) bit field.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.temperatureAlert.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.temperatureAlert.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.temperatureAlert.read(function (value) {
+        console.log("temperature alert is:", value);
+    });
+
+    refrigerator.temperatureAlert.subscribe(function (value) {
+        console.log("temperature alert changed:", value);
     });
 });
 ```
 
-### *refrigerator.displayTemperature*
+#### *refrigerator.displayTemperature*
 The display temperature is a read-only object with the following fields:
 - freshFoodTemperature (an integer representing the temperature displayed for the fresh food in degrees F)
 - freezerTemperature (an integer representing the  temperature displayed for the freezer in degrees F)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.displayTemperature.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.displayTemperature.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.displayTemperature.read(function (value) {
+        console.log("display temperature is:", value);
+    });
+
+    refrigerator.displayTemperature.subscribe(function (value) {
+        console.log("display temperature changed:", value);
     });
 });
 ```
 
-### *refrigerator.setpointTemperature*
+#### *refrigerator.setpointTemperature*
 The setpoint temperature is a read-only object with the following fields:
 - freshFoodTemperature (an integer representing the desired temperature for the fresh food in degrees F)
 - freezerTemperature (an integer representing the desired temperature for the freezer in degrees F)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.setpointTemperature.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.setpointTemperature.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.setpointTemperature.read(function (value) {
+        console.log("setpoint temperature is:", value);
+    });
+
+    refrigerator.setpointTemperature.subscribe(function (value) {
+        console.log("setpoint temperature changed:", value);
     });
 });
 ```
 
-### *refrigerator.doorAlarmAlert*
+#### *refrigerator.doorAlarmAlert*
 The door alarm alert is a read-only unsigned integer value of the [door alarm alert](#door-alarm-alert) bit field.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.doorAlarmAlert.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.doorAlarmAlert.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.doorAlarmAlert.read(function (value) {
+        console.log("door alarm alert is:", value);
+    });
+
+    refrigerator.doorAlarmAlert.subscribe(function (value) {
+        console.log("door alarm alert changed:", value);
     });
 });
 ```
 
-### *refrigerator.iceMakerBucketStatus*
+#### *refrigerator.iceMakerBucketStatus*
 The ice maker bucket status is a read-only unsigned integer value of the [ice maker bucket status](#ice-maker-bucket-status) bit field.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.iceMakerBucketStatus.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.iceMakerBucketStatus.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.iceMakerBucketStatus.read(function (value) {
+        console.log("ice maker bucket status is:", value);
+    });
+
+    refrigerator.iceMakerBucketStatus.subscribe(function (value) {
+        console.log("ice maker bucket status changed:", value);
     });
 });
 ```
 
-### *refrigerator.odorFilterExpirationStatus*
+#### *refrigerator.odorFilterExpirationStatus*
 The odor filter expiration status is a read-only object with the following fields:
 - odorFilterCalendarTimer (an integer representing the amount of odor filter time used in half hours)
 - odorFilterPercentUsed (an integer representing the percentage of the odor filter used by time)
 - odorFilterHoursRemaining (an integer representing the number of hours remaining before the odor filter needs to be changed)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.odorFilterExpirationStatus.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.odorFilterExpirationStatus.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.odorFilterExpirationStatus.read(function (value) {
+        console.log("odor filter expiration status is:", value);
+    });
+
+    refrigerator.odorFilterExpirationStatus.subscribe(function (value) {
+        console.log("odor filter expiration status changed:", value);
     });
 });
 ```
 
-### *refrigerator.doorState*
+#### *refrigerator.doorState*
 The door state is a read-only object with the following fields:
 - doorState (an unsigned integer value of the [door state](#door-state) bit field)
 - dcSwitchState (an unsigned integer value of the [DC switch state](#dc-switch-state) bit field)
 - acInputState (an unsigned integer value of the [AC input state](#ac-input-state) bit field)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.doorState.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.doorState.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.doorState.read(function (value) {
+        console.log("door state is:", value);
+    });
+
+    refrigerator.doorState.subscribe(function (value) {
+        console.log("door state changed:", value);
     });
 });
 ```
 
-### *refrigerator.doorBoard.information*
+#### *refrigerator.doorBoard.information*
 The door state is a read-only object with the following fields:
 - iceMakerMoldThermistorTemperature (an integer representing the temperature of the mold thermistor in hundredths of degrees F)
 - iceCabinetThermistorTemperature (an integer representing the temperature of the ice cabinet thermistor in hundredths of degrees F)
@@ -276,15 +234,15 @@ The door state is a read-only object with the following fields:
 - iceMakerOperationalState (an unsigned integer value representing the operational state of the ice maker)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("refrigerator", function (refrigerator) {
-        refrigerator.doorBoard.information.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        refrigerator.doorBoard.information.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    refrigerator.doorBoard.information.read(function (value) {
+        console.log("door board information is:", value);
+    });
+
+    refrigerator.doorBoard.information.subscribe(function (value) {
+        console.log("door board information changed:", value);
     });
 });
 ```
@@ -429,8 +387,3 @@ If the bit is cleared (value is 0) then the door is closed.
 |:-------:|:----------------------|
 | 0       | Duct door is opened   |
 | 1+      | Reserved              |
-
-
-
-
-
