@@ -3,6 +3,41 @@
 
 This node.js package provides functionality for communicating with a refrigerator via the [General Electric Appliance Software Development Kit](https://github.com/GEMakers/gea-sdk). In order to use this software, you must first connect your refrigerator to your computer using the [Green Bean](https://github.com/GEMakers/green-bean).
 
+&#x26a0; CAUTION: To prevent a risk of personal injury or property damage use this device and the API to modify the functionality of your GE Appliances only as directed in the [Guide to Safe and Reliable Operation](#guide-to-safe-and-reliable-operation).
+
+## Guide to Safe and Reliable Operation
+The interface between the green bean and the refrigerator can take place while the appliance is in either a consumer or a native mode.
+
+
+**Consumer mode** allows developers to access the high-level algorithms of an appliance, such as changing the operational mode of the unit.
+In consumer mode a user is unable change the low level functions that govern how a cycle runs.
+
+
+**Native mode** allows a developer to create the low-level algorithms of an appliance, such as direct control of motors, fans, actuators, heaters, and other controlled devices.
+While in native mode, high-level algorithms, such as maintaining cabinet temperature, are not operational.
+Native mode allows a developer to, for example, utilize loads to create algorithms not supported by the control.
+While operating in native mode, the developer must adhere to the following rules:
+
+1. The user should not activate the defrost heater(s) and the compressor concurrently as this may exceed rated current.
+1. The user should not activate the defrost heater(s) and the hot water heater concurrently as this may exceed rated current.
+1. The hot water heater should never be on without water in the water tank, as this will damage the heater.
+1. Use extreme caution when operating the hot water dispensing feature. The water being dispensed can be very hot. Water temperatures above 125 degrees Fahrenheit (52 degrees Celsius) can cause severe burns or death from scalding. Children, the disabled, and the elderly are at highest risk of being scalded. Always allow water to cool to drinkable temperature and test the temperature of the water before drinking.
+1. To avoid excessive component temperatures always run the condenser fan when the compressor is running.
+1. Do not dispense water or ice without an appropriate containers in place.
+1. Icemaker fills should be limited in order to prevent leakage or flooding.
+1. Changes that affect defrost functionality can lead to freezing of the evaporator drain. Freezing of the drain tube can lead to water leaking out of the front of the refrigerator during a defrost cycle.
+1. Freezing temperatures in the fresh food compartment can lead to water filter or water valve damage that can result in leaking water.
+1. Warm temperatures in the icebox or in the freezer can lead to melting of ice or melting of the evaporator ice that can lead to water leaking out of the front of the refrigerator.
+1. No ice dispense should be performed with doors open.
+1. Whenever the water dispense or icemaker fill function is required you must turn on the isolation valve as well as the appropriate dispense valve (water or icemaker).
+1. Dispenser solenoids are not designed to operate continuously. The solenoids should not be activated longer than 10 minutes.
+1. Leaving interior cabinet lights on indefinitely will affect temperature control performance and may result in discoloration of plastic liners. Limit continuous on time to 10 minutes.
+1. To prevent spoilage of food it is recommended to set the freezer and fresh food temperatures to 0 and 37 degrees Fahrenheit, respectively.
+1. Dampers within the system could become stuck if left in one position for an extended period of time. It is recommended that they be cycled at least once every hour during operation.
+1. Excessive relay cycling can shorten the life of the relays.
+1. To maintain native mode operation, the native mode command must be sent at least once every 30 minutes (15 minute periodic rate is recommended).
+
+
 ## Overview
 
 1. [Using the Software](#using-the-software)
