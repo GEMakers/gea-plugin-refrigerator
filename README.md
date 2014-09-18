@@ -3,7 +3,7 @@
 
 This node.js package provides functionality for communicating with a refrigerator via the [General Electric Appliance Software Development Kit](https://github.com/GEMakers/gea-sdk). In order to use this software, you must first connect your refrigerator to your computer using the [Green Bean](https://github.com/GEMakers/green-bean).
 
-&#x26a0; CAUTION: To prevent a risk of personal injury or property damage use this device and the API to modify the functionality of your GE Appliances only as directed in the [Guide to Safe and Reliable Operation](#guide-to-safe-and-reliable-operation).
+&#x26a0; WARNING: To prevent a risk of personal injury or property damage use this device and the API to modify the functionality of your GE Appliance only as directed in the [Guide to Safe and Reliable Operation](#guide-to-safe-and-reliable-operation). While an appliance operates in Consumer Mode, the control software applies algorithms that help protect consumers from a risk of personal injury or property damage. However, in Native Mode, these algorithms are not active. Therefore you must follow all guidelines for Safe/Reliable Operation detailed below to prevent a risk of personal injury or property damage that can arise during Native Mode Operation.
 
 ## Guide to Safe and Reliable Operation
 The interface between the green bean and the refrigerator can take place while the appliance is in either a consumer or a native mode.
