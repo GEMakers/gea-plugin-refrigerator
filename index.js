@@ -54,16 +54,16 @@ function Refrigerator (bus, configuration, appliance, base) {
     appliance.displayTemperature = appliance.erd({
         erd: base++,
         format: [
-            "freshFoodTemperature:UInt8",
-            "freezerTemperature:UInt8"
+            "freshFoodTemperature:Int8",
+            "freezerTemperature:Int8"
         ]
     });
     
     appliance.setpointTemperature = appliance.erd({
         erd: base++,
         format: [
-            "freshFoodTemperature:UInt8",
-            "freezerTemperature:UInt8"
+            "freshFoodTemperature:Int8",
+            "freezerTemperature:Int8"
         ]
     });
     
