@@ -41,20 +41,20 @@ function Refrigerator (bus, configuration, appliance, base) {
     var dispenseIntervalId;
     
     function dispenseStop(){
-	 	clearInterval(dispenseIntervalId);
-     	dispenseIntervalId = null;
-     	appliance.doorBoard.send(COMMAND_DISPENSE_CTRL, [STOP_DISPENSE, UNUSED, UNUSED], null);
-	}
-	
-	function dispenseStart(data){
-		if(dispenseIntervalId){
-			dispenseStop();
-	  	}
+        clearInterval(dispenseIntervalId);
+        dispenseIntervalId = null;
+        appliance.doorBoard.send(COMMAND_DISPENSE_CTRL, [STOP_DISPENSE, UNUSED, UNUSED], null);
+    }
 
-	  	dispenseIntervalId = setInterval(function() {
-			appliance.doorBoard.send(COMMAND_DISPENSE_CTRL, data, null);
-		}, DISPENSE_PERIOD);
-	}
+    function dispenseStart(data){
+        if(dispenseIntervalId){
+            dispenseStop();
+        }
+
+        dispenseIntervalId = setInterval(function() {
+            appliance.doorBoard.send(COMMAND_DISPENSE_CTRL, data, null);
+        }, DISPENSE_PERIOD);
+    }
 
     appliance.filterExpirationStatus = appliance.erd({
         erd: base++,
@@ -127,7 +127,7 @@ function Refrigerator (bus, configuration, appliance, base) {
     appliance.doorBoard = bus.endpoint(configuration.address, ADDRESS_DOOR_BOARD);
     
     appliance.doorBoard.information = appliance.doorBoard.command({
-    	command: COMMAND_REQUEST_ALL_DOOR_BOARD_INFO,
+        command: COMMAND_REQUEST_ALL_DOOR_BOARD_INFO,
         endian: "big",
         format: [
             "iceMakerMoldThermistorTemperature:UInt16",
@@ -143,19 +143,19 @@ function Refrigerator (bus, configuration, appliance, base) {
     });
      
     appliance.dispenseColdWater = function(){
-    	dispenseStart([WATER, UNUSED, UNUSED]);
+        dispenseStart([WATER, UNUSED, UNUSED]);
     }
     
     appliance.dispenseCubed = function(){
-    	dispenseStart([CUBED, UNUSED, UNUSED]);
+        dispenseStart([CUBED, UNUSED, UNUSED]);
     }
     
     appliance.dispenseCrushed = function(){
-    	dispenseStart([CRUSHED, UNUSED, UNUSED]);
+        dispenseStart([CRUSHED, UNUSED, UNUSED]);
     }
     
     appliance.dispenseStop = function(){
-    	dispenseStop();
+        dispenseStop();
     }
     
     return appliance;
