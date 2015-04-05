@@ -52,6 +52,10 @@ While operating in native mode, the developer must adhere to the following rules
   - [refrigerator.odorFilterExpirationStatus](#refrigeratorodorfilterexpirationstatus)
   - [refrigerator.doorState](#refrigeratordoorstate)
   - [refrigerator.doorBoard.information](#refrigeratordoorboardinformation)
+  - [refrigerator.dispenseColdWater()](#refrigeratordispensecoldwater)
+  - [refrigerator.dispenseCubed()](#refrigeratordispensecubed)
+  - [refrigerator.dispenseCrushed()](#refrigeratordispensecrushed)
+  - [refrigerator.dispenseStop()](#refrigeratordispensestop)
 1. [Appendix](#appendix)
   - [Filter alert](#filter-alert)
   - [Command features](#command-features)
@@ -281,6 +285,33 @@ greenBean.connect("refrigerator", function(refrigerator) {
     });
 });
 ```
+
+#### *refrigerator.dispenseColdWater()*
+This function start dispensing cold water. Water is dispensed until dispensing is stopped.  
+
+``` javascript
+var greenBean = require("green-bean");
+
+greenBean.connect("refrigerator", function(refrigerator) {
+    // Start dispensing cold water
+    refrigerator.dispenseColdWater();
+    console.log("start dispensing cold water");
+    
+    // Stop dispensing cold water after 2 seconds
+    setTimeout(function(){ 
+        refrigerator.dispenseStop(); 
+        console.log("stop dispensing cold water");
+    }, 2000);
+});
+```
+#### *refrigerator.dispenseCubed()*
+This function starts dispensing ice cubes. 
+
+#### *refrigerator.dispenseCrushed()*
+This function starts dispensing crushed ice.
+
+#### *refrigerator.dispenseStop()*
+This function stops dispensing.
 
 ## Appendix
 
