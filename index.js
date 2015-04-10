@@ -21,12 +21,40 @@ const REFRIGERATOR_BASE = 0x1000;
 const ADDRESS_DOOR_BOARD = 0x03;
 const COMMAND_REQUEST_DOOR_STATE = 0x23;
 const COMMAND_REQUEST_ALL_DOOR_BOARD_INFO = 0x36;
+const COMMAND_DISPENSE_CTRL = 0x70;
+
+const STOP_DISPENSE = 0x00;
+const WATER = 0x01;
+const CUBED = 0x02;
+const CRUSHED = 0x04;
+
+const UNUSED = 0x00;
+
+const DISPENSE_PERIOD = 250;
 
 function Refrigerator (bus, configuration, appliance, base) {
     appliance.filterAlert = appliance.erd({
         erd: base++,
         format: "UInt8"
     });
+    
+    var dispenseIntervalId;
+    
+    function dispenseStop(){
+        clearInterval(dispenseIntervalId);
+        dispenseIntervalId = null;
+        appliance.doorBoard.send(COMMAND_DISPENSE_CTRL, [STOP_DISPENSE, UNUSED, UNUSED], null);
+    }
+
+    function dispenseStart(data){
+        if(dispenseIntervalId){
+            dispenseStop();
+        }
+
+        dispenseIntervalId = setInterval(function() {
+            appliance.doorBoard.send(COMMAND_DISPENSE_CTRL, data, null);
+        }, DISPENSE_PERIOD);
+    }
 
     appliance.filterExpirationStatus = appliance.erd({
         erd: base++,
@@ -113,6 +141,22 @@ function Refrigerator (bus, configuration, appliance, base) {
             "iceMakerOperationalState:UInt8"
         ]
     });
+     
+    appliance.dispenseColdWater = function(){
+        dispenseStart([WATER, UNUSED, UNUSED]);
+    }
+    
+    appliance.dispenseCubed = function(){
+        dispenseStart([CUBED, UNUSED, UNUSED]);
+    }
+    
+    appliance.dispenseCrushed = function(){
+        dispenseStart([CRUSHED, UNUSED, UNUSED]);
+    }
+    
+    appliance.dispenseStop = function(){
+        dispenseStop();
+    }
     
     return appliance;
 }
@@ -141,4 +185,3 @@ exports.plugin = function (bus, configuration, callback) {
     
     callback(bus);
 };
-
