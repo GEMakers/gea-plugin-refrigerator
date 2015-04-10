@@ -54,16 +54,16 @@ function Refrigerator (bus, configuration, appliance, base) {
     appliance.displayTemperature = appliance.erd({
         erd: base++,
         format: [
-            "freshFoodTemperature:UInt8",
-            "freezerTemperature:UInt8"
+            "freshFoodTemperature:Int8",
+            "freezerTemperature:Int8"
         ]
     });
     
     appliance.setpointTemperature = appliance.erd({
         erd: base++,
         format: [
-            "freshFoodTemperature:UInt8",
-            "freezerTemperature:UInt8"
+            "freshFoodTemperature:Int8",
+            "freezerTemperature:Int8"
         ]
     });
     
@@ -102,8 +102,8 @@ function Refrigerator (bus, configuration, appliance, base) {
         command: COMMAND_REQUEST_ALL_DOOR_BOARD_INFO,
         endian: "big",
         format: [
-            "iceMakerMoldThermistorTemperature:UInt16",
-            "iceCabinetThermistorTemperature:UInt16",
+            "iceMakerMoldThermistorTemperature:Int16",
+            "iceCabinetThermistorTemperature:Int16",
             "hotWaterThermistor1Temperature:UInt16",
             "hotWaterThermistor2Temperature:UInt16",
             "dctSwitchState:UInt8",
