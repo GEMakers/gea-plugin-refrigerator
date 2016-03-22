@@ -17,6 +17,7 @@
  * 
  */
 
+const APPLIANCE_TYPE_REFRIGERATOR = 3;
 const REFRIGERATOR_BASE = 0x1000;
 const ADDRESS_DOOR_BOARD = 0x03;
 const COMMAND_REQUEST_DOOR_STATE = 0x23;
@@ -163,9 +164,11 @@ function Refrigerator (bus, configuration, appliance, base) {
 
 exports.plugin = function (bus, configuration, callback) {
     bus.on("appliance", function (appliance) {
-        appliance.read(REFRIGERATOR_BASE, function (value) {
-            bus.emit("refrigerator", 
-                Refrigerator(bus, configuration, appliance, REFRIGERATOR_BASE));
+        appliance.applianceType.read(function (type) {
+            if (type == APPLIANCE_TYPE_REFRIGERATOR) {
+                bus.emit("refrigerator", 
+                    Refrigerator(bus, configuration, appliance, REFRIGERATOR_BASE));
+            }
         });
     });
     
